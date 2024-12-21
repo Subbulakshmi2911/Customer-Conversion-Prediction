@@ -56,8 +56,8 @@ Several models were trained and evaluated to determine the best-performing one:
 
 After evaluating multiple models, Gradient Boosting emerged as the best model with the following metrics:
 
-    F1 Score: 0.587
-    Mean Accuracy: 91%
+    F1 Score: 0.52
+    Mean Accuracy: 89%
     The most important feature for prediction was duration (the duration of the marketing call).
 
 6. Conclusion
