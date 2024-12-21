@@ -171,27 +171,36 @@ if select == "Prediction Models":
         # Map categorical features to numeric values
         mapping = {
             'y': {'no': 0, 'yes': 1},
-            'mon': {'may': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'oct': 10, 'nov': 11, 'dec': 12, 'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'sep': 9},
-            'education_qual': {'tertiary': 3, 'secondary': 2, 'unknown': 0, 'primary': 1},
-            'marital': {'married': 24, 'single': 16, 'divorced': 32},
-            'call_type': {'unknown': 0, 'cellular': 1, 'telephone': 2},
-            'prev_outcome': {'unknown': 2, 'failure': 0, 'other': 3, 'success': 1}
+            'mon': {'jan': 2, 'feb': 6, 'mar': 11, 'apr': 7, 'may': 0, 'jun': 4, 'jul': 1, 'aug': 5, 'sep': 9, 'oct': 8, 'nov': 3, 'dec': 10},
+            'education_qual': {'tertiary':3, 'secondary':1, 'unknown':2, 'primary':0},
+            'marital': {'married':0, 'single':2, 'divorced':1},
+            'call_type': {'unknown':0, 'cellular':2, 'telephone':1},
+            'prev_outcome': {'unknown':0, 'failure':1, 'other':2, 'success':3},
+            'job':{
+    'management': 8,
+    'technician': 4,
+    'entrepreneur': 1,
+    'blue-collar': 0,
+    'unknown': 5,
+    'retired': 10,
+    'admin.': 7,  
+    'services': 3,
+    'self-employed': 6,
+    'unemployed': 9,
+    'housemaid': 2,
+    'student': 11
+}
         }
         dataset.replace(mapping, inplace=True)
 
-        # Encode 'job' feature using LabelEncoder
-        le = LabelEncoder()
-        dataset['job'] = le.fit_transform(dataset['job'])
 
-        # Inverse transform function to map numeric values back to job names
-        def inverse_transform_job(code):
-            return le.inverse_transform([code])[0]
 
-        # Get user inputs for features
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            job = st.selectbox('Job', dataset['job'].unique(), format_func=inverse_transform_job)
+           
+            job = st.selectbox('Job', dataset['job'].unique(), format_func=lambda x: map_back(pd.Series([x]), mapping['job'])[0])
+            
         with col2:
             marital = st.selectbox('Marital Status', dataset['marital'].unique(), format_func=lambda x: map_back(pd.Series([x]), mapping['marital'])[0])
         with col3:
